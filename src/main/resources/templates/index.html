@@ -26,7 +26,7 @@
     <div class="row m-4 border border-dark">
 
         <div class="col text-center m-3">
-            <a href="index" class="btn btn-outline-primary btn-lg">Home</a>
+            <a href="" class="btn btn-outline-primary btn-lg">Home</a>
         </div>
 
         <div class="col text-center m-2">
@@ -51,7 +51,7 @@
     <!-- Add new sighting button -->
     <div class="row m-4">
         <div class="col text-left m-2">
-            <a href="sightings" class="btn btn-primary btn-lg">Add New Sighting</a>
+            <a href="addSighting" class="btn btn-primary btn-lg">Add New Sighting</a>
         </div>
     </div>
     <!-- END new sighting button -->
@@ -59,7 +59,7 @@
     <!-- Superhero sightings table -->
     <div class="m-4 border border-dark">
         <div class="row">
-            <h3 class="col text-center my-3">Last sightings</h3>
+            <h3 class="col text-center my-3">Last  sightings</h3>
         </div>
         <div class="row">
             <div class="col text-center m-3">
@@ -75,13 +75,13 @@
                     <tr th:each="sighting : ${sightings}">
                         <td>
                             <a href="#"
-                               th:href="@{/superheros(id=${superheroSightings.get(sighting).id})}"
-                               th:text="${SuperheroSightings.get(sighting).name}"></a>
+                               th:href="@{infoSuperhero(id=${superheroSightings.get(sighting).id})}"
+                               th:text="${superheroSightings.get(sighting).name}"></a>
                         </td>
 
                         <td>
                             <a href="#"
-                               th:href="@{/locations(id=${sighting.location.id})}"
+                               th:href="@{/locations/detailsLocation(id=${sighting.location.id})}"
                                th:text="${
                                         sighting.location.name
                                         + ' ('
@@ -98,7 +98,68 @@
             </div>
         </div>
     </div>
+    <!-- END Superhero sightings table -->
 
+
+
+    <!-- Add New Sighting form -->
+    <div class="row m-4 border border-dark">
+        <div class="col-3 text-center m-3">
+            <span class="h3">Add New Sighting</span>
+        </div>
+        <div class="col-7 text-center m-3">
+            <form action="addSighting" method="POST">
+
+                <div class="form-group row">
+                    <label for="superhero" class="col-3 col-form-label">
+                        Superhero</label>
+                    <div class="col-9">
+                        <!-- <select id="superhero" name="superhero" class="form-control" >
+                             <option th:each="superhero : ${superheros}"
+                                     th:value="${superhero.id}"
+                                     th:text="${superhero.name}">
+                                 Superhero Name</option>
+                         </select>-->
+                        <input type="text" name="name" id="superhero" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="location" class="col-3 col-form-label">
+                        Location</label>
+                    <div class="col-9">
+                        <input type="text" name="name" id="location" class="form-control"/>
+                        <!-- <select id="location" name="location" class="form-control" >
+                             <option th:each="location : ${locations}"
+                                     th:value="${location.id}"
+                                     th:text="${location.name
+                                             + ' ('
+                                             + location.latitude
+                                             +' , '
+                                             + location.longitude
+                                             + ')'}">
+                                 Location</option>
+                         </select>-->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="sightingDate" class="col-3 col-form-label">Sighting Date</label>
+                    <div class="col-9">
+                        <input type="text" name="sightingDate" placeholder='yyyy-mm-dd'
+                               id="sightingDate" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="row m-4">
+
+                    <button type="submit" class="col m-4 btn btn-primary btn-lg">Add New Sighting</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!-- END Add form -->
    <!--
      Superhero sightings table
   <div class="m-4 border border-dark">

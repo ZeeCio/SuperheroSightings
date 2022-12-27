@@ -16,14 +16,14 @@
 <div class="container">
     <div class="row m-4">
         <div class="col text-center border border-dark">
-            <h1><a href="/" class="text-dark">Sightings</a></h1>
+            <h1><a href="" class="text-dark">Sightings</a></h1>
         </div>
     </div>
     <!-- Main buttons -->
     <div class="row m-4 border border-dark">
 
         <div class="col text-center m-3">
-            <a href="index" class="btn btn-outline-primary btn-lg">Home</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Home</a>
         </div>
         <div class="col text-center m-3">
             <a href="superheros" class="btn btn-outline-primary btn-lg">Superheroes</a>
@@ -46,7 +46,8 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Superhero</th>
+                    <th>Location</th>
                     <th>Date</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -54,37 +55,56 @@
                 </thead>
                 <tbody>
                 <tr th:each="sighting : ${sightings}">
-                    <td th:text="${sighting.id}">Sighting ID</td>
-                    <td th:text='${sighting.date}'>Date</td>
-                    <!--<td th:text="${superhero.description}">Description</td>-->
-                    <td><a href="#" th:href="@{/editSighting(id=${sighting.id})}">Edit</a></td>
-                    <td><a href="#" th:href="@{/deleteSighting(id=${sighting.id})}">Delete</a></td>
+                    <td>
+                        <a href="#"
+                           th:href="@{infoSuperhero(id=${superheroSightings.get(sighting).id})}"
+                           th:text="${superheroSightings.get(sighting).name}"></a>
+                    </td>
+
+                    <td>
+                        <a href="#"
+                           th:href="@{infoLocation(id=${sighting.location.id})}"
+                           th:text="${
+                                    sighting.location.name
+                                    + ' ('
+                                    + sighting.location.latitude
+                                    +' , '
+                                    + sighting.location.longitude
+                                    + ')'}"></a>
+                    </td>
+
+                    <td th:text="${sighting.date}">Date</td>
+
+                    <td><a href="#" th:href="@{editSighting(id=${sighting.id})}">Edit</a></td>
+
+                    <td><a href="#" th:href="@{deleteSighting(id=${sighting.id})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
-<!-- End  table -->
+    <!-- END sighting table -->
 
 
-<!-- Add new sightings form -->
+<!-- Add New Sighting form -->
 <div class="row m-4 border border-dark">
     <div class="col-3 text-center m-3">
-        <span class="h3">Add New Superhero Sighting</span>
+        <span class="h3">Add New Sighting</span>
     </div>
     <div class="col-7 text-center m-3">
-        <form action="/sightings" method="POST">
+        <form action="addSighting" method="POST">
 
             <div class="form-group row">
                 <label for="superhero" class="col-3 col-form-label">
                     Superhero</label>
                 <div class="col-9">
-                    <select id="superhero" name="superhero" class="form-control" >
+                   <!-- <select id="superhero" name="superhero" class="form-control" >
                         <option th:each="superhero : ${superheros}"
                                 th:value="${superhero.id}"
-                                th:text="${superhero.name}">Superhero Name</option>
-                    </select>
+                                th:text="${superhero.name}">
+                            Superhero Name</option>
+                    </select>-->
+                    <input type="text" name="name" id="superhero" class="form-control"/>
                 </div>
             </div>
 
@@ -92,7 +112,8 @@
                 <label for="location" class="col-3 col-form-label">
                     Location</label>
                 <div class="col-9">
-                    <select id="location" name="location" class="form-control" >
+                    <input type="text" name="name" id="location" class="form-control"/>
+                   <!-- <select id="location" name="location" class="form-control" >
                         <option th:each="location : ${locations}"
                                 th:value="${location.id}"
                                 th:text="${location.name
@@ -102,29 +123,27 @@
                                         + location.longitude
                                         + ')'}">
                             Location</option>
-                    </select>
+                    </select>-->
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="sightingDate" class="col-3 col-form-label">
-                    Sighting Date</label>
+                <label for="sightingDate" class="col-3 col-form-label">Sighting Date</label>
                 <div class="col-9">
                     <input type="text" name="sightingDate" placeholder='yyyy-mm-dd'
                            id="sightingDate" class="form-control"/>
-
                 </div>
             </div>
 
+            <div class="row m-4">
 
-            <button type="submit" class="col m-4 btn btn-primary btn-lg">Add Sighting</button>
-
+                <button type="submit" class="col m-4 btn btn-primary btn-lg">Add New Sighting</button>
+            </div>
 
         </form>
     </div>
 </div>
 <!-- END Add form -->
-
 </div>
 
 <!-- End main body -->

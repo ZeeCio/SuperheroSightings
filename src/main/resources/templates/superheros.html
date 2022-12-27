@@ -22,7 +22,7 @@
   <!-- Main buttons -->
   <div class="row m-4 border border-dark">
     <div class="col text-center m-3">
-      <a href="index" class="btn btn-outline-primary btn-lg">Home</a>
+      <a href="/" class="btn btn-outline-primary btn-lg">Home</a>
     </div>
     <div class="col text-center m-3">
       <a href="" class="btn btn-outline-primary btn-lg">Superheroes</a>
@@ -57,8 +57,8 @@
           <td th:text="${superhero.id}">Superhero ID</td>
           <td th:text='${superhero.name}'>Name</td>
           <td th:text="${superhero.description}">Description</td>
-          <td><a href="#" th:href="@{/editSuperhero(id=${superhero.id})}">Edit</a></td>
-          <td><a href="#" th:href="@{/deleteSuperhero(id=${superhero.id})}">Delete</a></td>
+          <td><a href="#" th:href="@{editSuperhero(id=${superhero.id})}">Edit</a></td>
+          <td><a href="#" th:href="@{deleteSuperhero(id=${superhero.id})}">Delete</a></td>
         </tr>
         </tbody>
       </table>

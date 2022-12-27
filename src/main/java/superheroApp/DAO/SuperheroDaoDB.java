@@ -96,7 +96,7 @@ public class SuperheroDaoDB implements SuperheroDB {
         for(Sighting sighting : superhero.getSightings()){
             jdbc.update(INSERT_SIGHTING,
                     superhero.getId(),
-                    sighting.getLocationId(),
+                    sighting.getLocation(),
                     sighting.getDate());
             int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
             sighting.setId(newId);

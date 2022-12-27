@@ -5,11 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import superheroApp.DAO.LocationDB;
-import superheroApp.DAO.SightingDB;
-import superheroApp.DAO.SuperheroDB;
 import superheroApp.DAO.SuperpowerDB;
-import superheroApp.Entities.Superhero;
 import superheroApp.Entities.Superpower;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -17,15 +13,15 @@ import java.util.List;
 @Controller
 public class SuperpowerController {
 
-
-    SuperpowerDB superpowerDao;
+    @Autowired
+    private final SuperpowerDB superpowerDao;
 
 
     public SuperpowerController(SuperpowerDB superpowerDao) {
         this.superpowerDao = superpowerDao;
     }
 
-    @GetMapping("/superpowers")
+    @GetMapping("superpowers")
     public String displaySuperpowers(Model model) {
         List<Superpower> superpowers = superpowerDao.getAllSuperpowers();
         model.addAttribute("superpowers", superpowers);
@@ -42,6 +38,16 @@ public class SuperpowerController {
         return "redirect:/superpowers";
     }
 
+  /*  @PostMapping("addSuperpower")
+    public String addSuperpower(HttpServletRequest request, Model model){
+
+        String name = request.getParameter("superpowerName");
+        String description = request.getParameter("superpowerDescription");
+        Superpower superpower = service.createSuperpower(name, description);
+        superpowerDao.addSuperpower(superpower);
+        return "redirect:/addSuperpower";
+    }*/
+
     @GetMapping("deleteSuperpower")
     public String deleteSuperpower(Integer id) {
         superpowerDao.deleteSuperpowerById(id);
@@ -49,8 +55,8 @@ public class SuperpowerController {
     }
 
     @GetMapping("editSuperpower")
-    public String editSuperpower(Integer id, Model model) {
-        //int id = Integer.parseInt(request.getParameter("id"));
+    public String editSuperpower(HttpServletRequest request, Model model) {
+        int id = Integer.parseInt(request.getParameter("id"));
         Superpower superpower = superpowerDao.getSuperpowerById(id);
         model.addAttribute("superpower", superpower);
         return "editSuperpower";
