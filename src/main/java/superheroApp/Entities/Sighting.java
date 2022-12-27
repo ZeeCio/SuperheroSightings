@@ -7,8 +7,8 @@ public class Sighting {
 
     private int id;
     private int superheroId;
-    private int locationId;
-    private Date date;
+    private Location location;
+    private String date;
 
     @Override
     public boolean equals(Object o) {
@@ -17,7 +17,7 @@ public class Sighting {
         Sighting sighting = (Sighting) o;
         return getId() == sighting.getId() &&
                 getSuperheroId() == sighting.getSuperheroId()
-                && getLocationId() == sighting.getLocationId()
+                && getLocation() == sighting.getLocation()
                 && getDate().equals(sighting.getDate());
     }
 
@@ -25,7 +25,7 @@ public class Sighting {
     public int hashCode() {
         return Objects.hash(getId(),
                 getSuperheroId(),
-                getLocationId(),
+                getLocation(),
                 getDate());
     }
 
@@ -45,19 +45,19 @@ public class Sighting {
         this.superheroId = superheroId;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -66,7 +66,7 @@ public class Sighting {
         return "Sighting{" +
                 "id=" + id +
                 ", superheroId=" + superheroId +
-                ", location=" + locationId +
+                ", location=" + location +
                 ", date=" + date +
                 '}';
     }

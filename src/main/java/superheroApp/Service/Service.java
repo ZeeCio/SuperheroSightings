@@ -1,7 +1,6 @@
-package superheroApp.Service;
+package superheroApp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import superheroApp.DAO.SightingDB;
 import superheroApp.DAO.SuperheroDB;
 import superheroApp.Entities.Location;
@@ -12,7 +11,6 @@ import superheroApp.Entities.Superpower;
 import java.sql.Date;
 import java.util.*;
 
-@Component
 @org.springframework.stereotype.Service
 public class Service {
 
@@ -33,11 +31,11 @@ public class Service {
         return location;
     }
 
-    public Sighting createSighting(Superhero superhero, Location location, String date){
+    public Sighting createSighting(Superhero superhero, Location location, Date date){
         Sighting sighting = new Sighting();
         sighting.setSuperheroId(superhero.getId());
-        sighting.setLocation(location);
-        sighting.setDate(String.valueOf(date));
+        //sighting.setLocation(location);
+        sighting.setDate(date);
 
         return sighting;
     }

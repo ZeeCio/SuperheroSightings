@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import superheroApp.Entities.Location;
 import superheroApp.Entities.Sighting;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,12 +17,13 @@ public class SightingDaoDB implements SightingDB {
     @Autowired
     JdbcTemplate jdbc;
 
+
     @Override
     public Sighting getSightingById(int id) {
         try {
             final String SELECT_SIGHTING_BY_ID = "SELECT * FROM Sighting WHERE SightingId = ?;";
             Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_ID, new SightingMapper(), id);
-            sighting.setLocationId(getLocationForSighting(id).getId());
+            sighting.setLocation(getLocationForSighting(id));
             return sighting;
         } catch (DataAccessException ex) {
             return null;
@@ -34,14 +34,14 @@ public class SightingDaoDB implements SightingDB {
     public List<Sighting> getAllSightings() {
         final String SELECT_ALL_SIGHTINGS = "SELECT * FROM Sighting";
         List<Sighting> sightings = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingMapper());
-        //associateLocationsForSightings(sightings);
+       associateLocationsForSightings(sightings);
         return sightings;
     }
 
     @Override
     public void associateLocationsForSightings(List<Sighting> sightings){
         for (Sighting sighting : sightings) {
-            sighting.setLocationId(getLocationForSighting(sighting.getId()).getId());
+            sighting.setLocation(getLocationForSighting(sighting.getId()));
         }
     }
 
@@ -58,7 +58,7 @@ public class SightingDaoDB implements SightingDB {
                 + "VALUES(?,?,?)";
         jdbc.update(INSERT_SIGHTING,
                 sighting.getSuperheroId(),
-                sighting.getLocationId(),
+                sighting.getLocation().getId(),
                 sighting.getDate());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -69,10 +69,10 @@ public class SightingDaoDB implements SightingDB {
     @Override
     public void updateSighting(Sighting sighting) {
         final String UPDATE_SIGHTING = "UPDATE Sighting SET SuperheroId = ?, LocationId = ?, Date = ?"
-                + "WHERE SightingId = ?";
+                + "WHERE SightingId = ?;";
         jdbc.update(UPDATE_SIGHTING,
                 sighting.getSuperheroId(),
-                sighting.getLocationId(),
+                sighting.getLocation(),
                 sighting.getDate(),
                 sighting.getId());
     }
@@ -80,13 +80,13 @@ public class SightingDaoDB implements SightingDB {
     @Override
     @Transactional
     public void deleteSightingById(int id) {
-        final String DELETE_SIGHTING = "DELETE FROM Sighting WHERE SightingId = ?";
+        final String DELETE_SIGHTING = "DELETE FROM Sighting WHERE SightingId = ?;";
         jdbc.update(DELETE_SIGHTING, id);
     }
 
     @Override
     public List<Sighting> getSightingsForLocation(Location location) {
-        final String SELECT_SIGHTINGS_FOR_LOCATION = "SELECT * FROM Sighting WHERE LocationId = ?;";
+        final String SELECT_SIGHTINGS_FOR_LOCATION = "SELECT * FROM Sighting WHERE LocationId = ?";
         List<Sighting> sighting = jdbc.query(SELECT_SIGHTINGS_FOR_LOCATION,
                 new SightingMapper(), location.getId());
         associateLocationsForSightings(sighting);
@@ -102,8 +102,7 @@ public class SightingDaoDB implements SightingDB {
             Sighting sighting = new Sighting();
             sighting.setId(rs.getInt("SightingId"));
             sighting.setSuperheroId(rs.getInt("SuperheroId"));
-            sighting.setLocationId(rs.getInt("LocationId"));
-            sighting.setDate(Date.valueOf(rs.getDate("Date").toString()));
+            sighting.setDate(rs.getString("Date"));
             return sighting;
         }
     }

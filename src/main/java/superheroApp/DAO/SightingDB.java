@@ -17,7 +17,7 @@ public interface SightingDB {
 
     List<Sighting> getAllSightings();
 
-    void associateLocationsForSightings(List<Sighting> sighthings);
+    void associateLocationsForSightings(List<Sighting> sightings);
 
     @Transactional
     Sighting addSighting(Sighting sighting);
